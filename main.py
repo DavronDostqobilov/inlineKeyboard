@@ -45,8 +45,10 @@ def photo(update: Update, context: CallbackContext):
     bot.sendPhoto(chat_id=chat_id, photo=photo, reply_markup=keyboard)
 
 def like_and_dislike(update: Update, context: CallbackContext):
+
     query = update.callback_query
-    chat_id=update.message.chat.id
+    chat_id=update.callback_query.message.chat.id
+    chat_id=str(chat_id)
     bot = context.bot
     print(query.data)
     with open('data.json','r') as f:
@@ -67,7 +69,7 @@ def like_and_dislike(update: Update, context: CallbackContext):
     button2 = InlineKeyboardButton(text = f"👎 {dislike}", callback_data="dislike")
 
     keyboard = InlineKeyboardMarkup([[button1, button2]])
-    update.callback_query.message.edit_reply_markup(chat_id=chat_id, reply_markup=keyboard)
+    update.callback_query.message.edit_reply_markup(chat_id=update.callback_query.message.chat.id,message_id=update.callback_query.message.message_id,reply_markup=keyboard)
 
 updater = Updater(TOKEN)
 dp = updater.dispatcher
